@@ -1,0 +1,26 @@
+﻿@using hmwk_for_5._13._19.Models
+@using Data
+@model IEnumerable<JokeViewModel>
+
+@{
+    ViewData["Title"] = "Jokes";
+}
+
+<table>
+    <tr>
+        <th>Joke</th>
+        <th>Punchline</th>
+        <th>Likes</th>
+        <th>Dislikes</th>
+    </tr>
+    @foreach(JokeViewModel jvm in Model)
+    {
+        <tr>
+            <td>@jvm.Joke.Setup</td>
+            <td>@jvm.Joke.Punchline</td>
+            <td>@jvm.Likes</td>
+            <td>@jvm.Dislikes</td>
+        </tr>
+    }
+</table>
+

@@ -5,39 +5,80 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using hmwk_for_5._13._19.Models;
+using Microsoft.Extensions.Configuration;
+using Data;
 
 namespace hmwk_for_5._13._19.Controllers
 {
     public class HomeController : Controller
     {
+        private string _conn;
+        public HomeController(IConfiguration configuration)
+        {
+            _conn = configuration.GetConnectionString("ConStr");
+        }
+
         public IActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                var repo = new JokesRepository(_conn);
+                User user = repo.GetUserByEmail(User.Identity.Name);
+                Joke joke = repo.GenerateRandomJoke();
+                var vm = new RandomJokeViewModel
+                {
+                    Joke = joke,
+                    User = user,
+                    Liked = repo.DidUserLike(user.Id, joke.Id),
+                    Disliked = repo.DidUserDislike(user.Id, joke.Id)
+                };
+                return View(vm);
+            }
+            else
+            {
+                return Redirect("/account/login");
+            }
+
         }
 
-        public IActionResult About()
+        [HttpPost]
+        public void Like(int userId, int jokeId)
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
+            var repo = new JokesRepository(_conn);
+            repo.LikeJoke(userId, jokeId);
+            //return Redirect("/home/jokes");
         }
 
-        public IActionResult Contact()
+        [HttpPost]
+        public void Dislike(int userId, int jokeId)
         {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            var repo = new JokesRepository(_conn);
+            repo.DislikeJoke(userId, jokeId);
+            //return Redirect("/home/jokes");
         }
 
-        public IActionResult Privacy()
+        public IActionResult Jokes()
         {
-            return View();
+            var repo = new JokesRepository(_conn);
+            var jokesVm = new List<JokeViewModel>();
+            var jokes = repo.GetJokes();
+            foreach (Joke j in jokes)
+            {
+                jokesVm.Add(new JokeViewModel
+                {
+                    Joke = j,
+                    Likes = repo.GetLikesByJokeId(j.Id),
+                    Dislikes = repo.GetDislikesByJokeId(j.Id),
+                });
+            }
+            return View(jokesVm);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult StillLike(UserLikedJokes like)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var repo = new JokesRepository(_conn);
+            var liked = repo.CanStillLike(like);
+            return Json(new { liked = liked });
         }
     }
 }

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hmwk for 5.13.19", "hmwk for 5.13.19\hmwk for 5.13.19.csproj", "{8B33AE54-E9F3-49B2-A2C8-97353C1C1782}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{61F94363-F477-438D-8567-D4D79A402690}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8B33AE54-E9F3-49B2-A2C8-97353C1C1782}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B33AE54-E9F3-49B2-A2C8-97353C1C1782}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B33AE54-E9F3-49B2-A2C8-97353C1C1782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61F94363-F477-438D-8567-D4D79A402690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61F94363-F477-438D-8567-D4D79A402690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61F94363-F477-438D-8567-D4D79A402690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61F94363-F477-438D-8567-D4D79A402690}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
